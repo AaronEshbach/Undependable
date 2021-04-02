@@ -16,17 +16,11 @@ type Package =
         Assemblies: Assembly list
     }
 
-type Dependency =
-| SourceFileReference of (int * Assembly)
-| ProjectFileReference of Assembly
-| PackageReference of Package
-| IndirectReference of Assembly
-
 type SourceFile =
     {
         Name: string
         Path: string
-        References: Dependency list
+        References: Assembly list
     }
 
 type ProjectType =
@@ -57,4 +51,11 @@ type Project =
         PackageReferences: PackageReference list
         ProjectReferences: string list
         AssemblyReferences: AssemblyReference list
+    }
+
+type CompiledProject =
+    {
+        Name: string
+        SourceFiles: SourceFile list
+        References: Assembly list
     }
