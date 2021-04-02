@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.1.0-prerelease</Version>
+    <Authors>Eshbach, Aaron</Authors>
+    <Company />
+    <Description>Core models and crawling logic for Undependable project dependency tracer</Description>
+    <PackageTags>dependency crawler f# net sdk</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Errors.fs" />
+    <Compile Include="Models.fs" />
+    <Compile Include="Project.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CurryOn.Xml" Version="0.1.2.1-prerelease" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="5.0.1" />
+  </ItemGroup>
+
+</Project>
