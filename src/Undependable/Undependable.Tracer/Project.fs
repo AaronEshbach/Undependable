@@ -3,11 +3,14 @@
 open CurryOn
 open CurryOn.IO
 open CurryOn.Xml
+open System.IO
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Project =
     let load (projectFile: string) =
         asyncResult {
+            let file = projectFile |> FileInfo
+            let rootDirectory = file.Directory.FullName
             let! xml = projectFile |> XDocument.load
 
             let propertyGroup = xml |> XDocument.tryElement "PropertyGroup"
@@ -24,6 +27,7 @@ module Project =
                     |> Seq.collect (XElement.descendents "Compile")
                     |> Seq.choose (XElement.tryAttribute "Include")
                     |> Seq.map XAttribute.value
+                    |> Seq.map (fun name -> { Name = name; Path = sprintf "%s\\%s" rootDirectory name})
 
                 let projectReferences =
                     itemGroups
@@ -63,6 +67,7 @@ module Project =
                         Name = name
                         Type = projectType
                         TargetFramework = targetFramework
+                        RootFolder = rootDirectory
                         ProjectFile = projectFile
                         Version = projectVersion
                         SourceFiles = sourceFiles |> Seq.toList

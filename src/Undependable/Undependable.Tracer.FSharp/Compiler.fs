@@ -37,7 +37,7 @@ module Compiler =
             yield "--flaterrors"
             yield "--target:library"
             for file in project.SourceFiles do
-                yield file
+                yield file.Name
             for r in getReferences project do
                   yield "-r:" + r 
         |]

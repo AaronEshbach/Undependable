@@ -19,10 +19,10 @@ module Project =
             FullyQualifiedName = assembly.QualifiedName
         }
 
-    let compileFile (compiler: FSharpChecker) (projectOptions: FSharpProjectOptions) (fileName: string) =
+    let compileFile (compiler: FSharpChecker) (projectOptions: FSharpProjectOptions) (file: ProjectSourceFile) =
         asyncResult {
-            let! sourceCode = fileName |> File.readAllText
-            let! (parseResults, checkResults) = compiler.ParseAndCheckFileInProject(fileName, 1, SourceText.ofString sourceCode, projectOptions)
+            let! sourceCode = file.Path |> File.readAllText
+            let! (parseResults, checkResults) = compiler.ParseAndCheckFileInProject(file.Name, 1, SourceText.ofString sourceCode, projectOptions)
             if parseResults.ParseHadErrors then
                 return! Error <| SyntaxError (parseResults.Errors |> Seq.map (fun error -> error.Message) |> String.join "\r\n")
             else
@@ -40,8 +40,8 @@ module Project =
 
                         return 
                             { 
-                                Name = fileName 
-                                Path = (FileInfo fileName).FullName
+                                Name = file.Name 
+                                Path = file.Path
                                 References = dependencies |> Seq.toList
                             }
                     | errors ->                        

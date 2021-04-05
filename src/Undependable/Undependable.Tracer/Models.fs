@@ -40,14 +40,21 @@ type AssemblyReference =
         HintPath: string option
     }
 
+type ProjectSourceFile =
+    {
+        Name: string
+        Path: string
+    }
+
 type Project =
     {
         Name: string
+        RootFolder: string
         ProjectFile: string
         Type: ProjectType
         TargetFramework: string
         Version: string
-        SourceFiles: string list
+        SourceFiles: ProjectSourceFile list
         PackageReferences: PackageReference list
         ProjectReferences: string list
         AssemblyReferences: AssemblyReference list
